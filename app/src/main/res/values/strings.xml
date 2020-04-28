@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Modul_5_Mobile</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="str_nearby_restaurants">Nearby Restaurants</string>
+</resources>

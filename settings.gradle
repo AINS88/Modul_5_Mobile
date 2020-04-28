@@ -1,0 +1,2 @@
+rootProject.name='Modul_5_Mobile'
+include ':app'
