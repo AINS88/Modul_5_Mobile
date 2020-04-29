@@ -1,4 +1,6 @@
-package com.informatika.umm.modul_5_mobile.view;
+package com.informatika.umm.modul_5_mobile.view.map;
+
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -42,7 +44,7 @@ public class MapsViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<RestaurantResponse> call, @NonNull Throwable t) {
-
+                Log.d(t.getMessage(), "onFailure");
             }
         });
     }
