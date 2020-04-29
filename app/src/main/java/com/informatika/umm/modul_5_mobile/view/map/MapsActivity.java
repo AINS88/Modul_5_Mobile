@@ -1,6 +1,7 @@
 package com.informatika.umm.modul_5_mobile.view.map;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,8 +26,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private double latitude;
-    private double longitude;
     private MapsViewModel viewModel;
     private Button btnRestaurant;
 
@@ -57,9 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
                 btnRestaurant.setOnClickListener(v -> {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    viewModel.fetchNearbyRestaurants(latitude, longitude);
+                    viewModel.fetchNearbyRestaurants(location.getLatitude(), location.getLongitude());
                     showMessages("Nearby Restaurants");
                 });
             }
@@ -90,17 +87,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void getDetailRestaurants(List<Restaurant> restaurant) {
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            for (int i = 0; i < restaurant.size(); i++) {
+            for (Restaurant restaurants: restaurant) {
                 LatLng latLng = new LatLng(
-                        restaurant.get(i).getGeometry().getLocation().getLat(),
-                        restaurant.get(i).getGeometry().getLocation().getLng());
+                        restaurants.getGeometry().getLocation().getLat(),
+                        restaurants.getGeometry().getLocation().getLng());
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(latLng)
-                        .title(restaurant.get(i).getName())
-                        .snippet(restaurant.get(i).getVicinity());
+                        .title(restaurants.getName())
+                        .snippet(restaurants.getVicinity());
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mMap.addMarker(markerOptions);
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+                Log.d("Restaurant ",restaurants.getName());
             }
         });
     }
